@@ -14,5 +14,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    //indent tab 2
+    'indent': ['error', 4],
   },
 }

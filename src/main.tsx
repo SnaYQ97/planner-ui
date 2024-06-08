@@ -5,31 +5,37 @@ import {Provider} from "react-redux";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import { store } from "@store/index.store.ts";
 import { Dashboard } from "@pages";
-import Register, {RegisterTab} from "./pages/register/Register.tsx";
+import Login from "./pages/register/components/LoginForm/Login.tsx";
+import Register from "./pages/register/components/RegisterForm/Register.tsx";
 
 export enum Path {
   HOME = '/',
   LOGIN = '/login',
+  REGISTER = '/register',
 }
 
 const router = createBrowserRouter([
-  {
-    path: Path.HOME,
-    element: <Dashboard />,
-    children: [
-      { path: Path.HOME, element: <div>Home</div> },
-    ],
-  },
-  {
-    path: Path.LOGIN,
-    element: <Register tab={RegisterTab.LOGIN} />,
-  },
+    {
+        path: Path.HOME,
+        element: <Dashboard />,
+        children: [
+            { path: Path.HOME, element: <div>Home</div> },
+        ],
+    },
+    {
+        path: Path.LOGIN,
+        element: <Login />,
+    },
+    {
+        path: Path.REGISTER,
+        element: <Register/>,
+    },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router}/>
-    </Provider>
-  </React.StrictMode>,
+    <React.StrictMode>
+        <Provider store={store}>
+            <RouterProvider router={router}/>
+        </Provider>
+    </React.StrictMode>,
 )
