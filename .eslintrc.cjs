@@ -15,6 +15,18 @@ module.exports = {
       { allowConstantExport: true },
     ],
     //indent tab 2
-    'indent': ['error', 4],
+    'indent': ['error', 2, {"ignoredNodes": ["JSXAttribute, JSXSpreadAttribute"]}],
+    'react/jsx-first-prop-new-line': ['error', 'never'],
+    'react/jsx-max-props-per-line': ['error', { maximum: 1, "when": "always" }],
+    'react/jsx-indent-props': [2, 'first'],
+    'react/jsx-closing-bracket-location': ['error', { nonEmpty: 'tag-aligned', selfClosing: 'tag-aligned' }],
+    'react/jsx-closing-tag-location': ['error', { nonEmpty: 'after-props', selfClosing: 'after-props' }],
+    'react/jsx-wrap-multilines': ['error', { declaration: 'parens-new-line', assignment: 'parens-new-line', return: 'parens-new-line', arrow: 'parens-new-line', condition: 'parens', logical: 'parens', prop: 'parens-new-line' }],
+    'react/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
+    'react/jsx-indent': ['error', 2, { checkAttributes: true, indentLogicalExpressions: false }],
+    'react/jsx-equals-spacing': ['error', 'never'],
   },
+  
+  
+  
 }
