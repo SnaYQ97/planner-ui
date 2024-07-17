@@ -5,16 +5,16 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react','react-refresh'],
+  plugins: ['@typescript-eslint', 'react','react-refresh', '@tanstack/eslint-plugin-query'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
-    //indent tab 2
     'indent': ['error', 2, {"ignoredNodes": ["JSXAttribute, JSXSpreadAttribute"]}],
     'react/jsx-first-prop-new-line': ['error', 'never'],
     'react/jsx-max-props-per-line': ['error', { maximum: 1, "when": "always" }],

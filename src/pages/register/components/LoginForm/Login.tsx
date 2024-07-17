@@ -6,6 +6,8 @@ import Form from "@components/Form/Form.tsx";
 import {Link} from "react-router-dom";
 import {Path} from "../../../../main.tsx";
 import LoginBackground from '../../../../assets/images/Login.jpg';
+import {useMutation} from "@tanstack/react-query";
+import AuthService from "../../../../services/AuthService/Auth.service.ts";
 
 const Login = () => {
   enum InputName {
@@ -19,6 +21,13 @@ const Login = () => {
     value: '',
     isDirty: false,
   }
+  // const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: AuthService().login,
+    onSuccess: (data) => {
+      console.log(data)
+    }
+  });
 
   const [form , setForm] = useState({
     email: INITIAL_VALIDATION_OBJECT,
@@ -45,18 +54,19 @@ const Login = () => {
     const { name  , value } = e.target;
     const newValue = formValidation[name as InputName](value);
 
-    console.log({name, value, newValue})
-
     setForm({
       ...form,
       [name]: newValue
     })
   }
 
-  const onSubmitForm = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+  const onSubmitForm = (event: MouseEvent<HTMLButtonElement>) => {
     if (!isFormValid) return;
     event.preventDefault();
-    console.log('login')
+    mutation.mutate({
+      email: form.email.value,
+      password: form.password.value,
+    });
   }
 
   const onInputBlur = (e?: FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => {
@@ -71,7 +81,7 @@ const Login = () => {
       }
     })
   }
-  const handleOnClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+  const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     Object.keys(form).forEach((field) => {
       const newValue = formValidation[field as InputName](form[field as InputName].value);
