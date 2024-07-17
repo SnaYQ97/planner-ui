@@ -6,19 +6,19 @@ export interface UserCreation {
 }
 
 const UserService = () => {
-    const Service = BaseService()
-    const getUsers = () => {
-        return Service.get("/users")
-    }
+  const Service = BaseService()
+  const getUsers = () => {
+    return Service.get("/users")
+  }
 
-    const createUser = (data: UserCreation) => {
-        return Service.post<UserCreation, string>("/users", data)
-    }
+  const createUser = (data: UserCreation) => {
+    return Service.post<UserCreation, string>("/users", data)
+  }
 
-    return {
-        getUsers,
-        createUser
-    }
+  return {
+    getUsers,
+    createUser
+  }
 }
 
 export default UserService;
