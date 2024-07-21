@@ -9,7 +9,7 @@ interface UserCredentials {
 const AuthService = () => {
   const Service = BaseService()
   const login = (data: UserCredentials) => {
-    return Service.post("/auth/", data)
+    return Service.post("/auth/login", data)
   }
 
   return {
