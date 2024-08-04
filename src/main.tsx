@@ -15,10 +15,12 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import Logout from "./pages/register/components/LoginForm/Logout.tsx";
 
 export enum Path {
   HOME = '/',
   LOGIN = '/login',
+  logout = '/logout',
   REGISTER = '/register',
 }
 
@@ -38,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: Path.LOGIN,
     element: <Login />,
+  },
+  {
+    path: Path.logout,
+    element: <Logout/>
   },
   {
     path: Path.REGISTER,

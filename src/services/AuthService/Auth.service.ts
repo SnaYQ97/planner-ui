@@ -9,11 +9,15 @@ interface UserCredentials {
 const AuthService = () => {
   const Service = BaseService()
   const login = (data: UserCredentials) => {
-    return Service.post("/auth/login", data)
+    return Service.post("/auth", data)
+  }
+  const logout = () => {
+    return Service.get("/auth/logout")
   }
 
   return {
     login,
+    logout
   }
 }
 

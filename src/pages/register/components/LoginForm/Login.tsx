@@ -3,7 +3,7 @@ import Validation from "../../../../validation/validation.ts";
 import Styled from "./Login.styled";
 import { Button, TextField, Typography} from "@mui/material";
 import Form from "@components/Form/Form.tsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Path} from "../../../../main.tsx";
 import LoginBackground from '../../../../assets/images/Login.jpg';
 import {useMutation} from "@tanstack/react-query";
@@ -22,10 +22,12 @@ const Login = () => {
     isDirty: false,
   }
   // const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const mutation = useMutation({
     mutationFn: AuthService().login,
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
+      navigate(Path.HOME);
     }
   });
 
@@ -83,11 +85,11 @@ const Login = () => {
   }
   const handleOnClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    Object.keys(form).forEach((field) => {
-      const newValue = formValidation[field as InputName](form[field as InputName].value);
+    Object.entries(form).forEach(([identifier, field ]) => {
+      const newValue = formValidation[identifier as InputName](field.value);
       setForm({
         ...form,
-        [field]: {
+        [identifier]: {
           ...newValue,
           isDirty: true,
         }
