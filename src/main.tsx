@@ -20,7 +20,7 @@ import Logout from "./pages/register/components/LoginForm/Logout.tsx";
 export enum Path {
   HOME = '/',
   LOGIN = '/login',
-  logout = '/logout',
+  LOGOUT = '/logout',
   REGISTER = '/register',
 }
 
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: Path.logout,
+    path: Path.LOGOUT,
     element: <Logout/>
   },
   {

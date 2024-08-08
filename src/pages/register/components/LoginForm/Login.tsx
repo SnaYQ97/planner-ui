@@ -8,6 +8,8 @@ import {Path} from "../../../../main.tsx";
 import LoginBackground from '../../../../assets/images/Login.jpg';
 import {useMutation} from "@tanstack/react-query";
 import AuthService from "../../../../services/AuthService/Auth.service.ts";
+import {useDispatch} from "react-redux";
+import {setUser, User} from "../../../../reducer/user.reducer.ts";
 
 const Login = () => {
   enum InputName {
@@ -23,11 +25,18 @@ const Login = () => {
   }
   // const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const mutation = useMutation({
     mutationFn: AuthService().login,
-    onSuccess: () => {
-      navigate(Path.HOME);
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      dispatch(setUser(data.data.user as User));
+      AuthService().status().then(() => {
+        navigate(Path.HOME);
+      });
     }
   });
 
