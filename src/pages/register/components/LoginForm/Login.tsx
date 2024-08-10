@@ -34,9 +34,7 @@ const Login = () => {
     },
     onSuccess: (data) => {
       dispatch(setUser(data.data.user as User));
-      AuthService().status().then(() => {
-        navigate(Path.HOME);
-      });
+      navigate(Path.HOME);
     }
   });
 
