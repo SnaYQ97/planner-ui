@@ -4,7 +4,7 @@ const FormRoot = styled('form', {
   name: 'MuiForm',
   slot: 'root',
 })(({theme}) => ({
-  background: theme.palette.background.paper,
+  background: 'transparent',
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(2),

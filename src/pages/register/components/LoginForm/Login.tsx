@@ -1,7 +1,7 @@
 import {ChangeEvent, FocusEvent, MouseEvent, useState} from "react";
 import Validation from "../../../../validation/validation.ts";
 import Styled from "./Login.styled";
-import { Button, TextField, Typography} from "@mui/material";
+import {Button, IconButton, InputAdornment, TextField, Typography} from "@mui/material";
 import Form from "@components/Form/Form.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {Path} from "../../../../main.tsx";
@@ -10,6 +10,7 @@ import {useMutation} from "@tanstack/react-query";
 import AuthService from "../../../../services/AuthService/Auth.service.ts";
 import {useDispatch} from "react-redux";
 import {setUser, User} from "../../../../reducer/user.reducer.ts";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const Login = () => {
   enum InputName {
@@ -105,20 +106,30 @@ const Login = () => {
     onSubmitForm(event)
   }
 
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <Styled.LoginRoot>
-        {/* box image material ui hide when to small space */}
+        <Styled.Background src={LoginBackground} />
         <Styled.LoginBox>
           <div>
-            <img src="https://via.placeholder.com/25"
+            <img src=""
                  alt="logo"
             />
             <span>Logo</span>
           </div>
           <div>
-            <Typography variant={'h3'}>Emi, says Hello</Typography>
-            <Typography variant={'subtitle1'}>Login to your account</Typography>
+            <Typography variant={'h3'}>Sign in!</Typography>
+            <Typography variant={'subtitle1'}>Your Dream, Your Plan. Login and set your azimuth.</Typography>
           </div>
           <Form autoComplete={"on"}>
             <TextField type="email"
@@ -131,8 +142,7 @@ const Login = () => {
                        error={form.email.isDirty && !!form.email.error}
                        helperText={form.email.isDirty && form.email.error}
             />
-            <TextField type="password"
-                       variant={'outlined'}
+            <TextField variant={'outlined'}
                        label="Password"
                        name={InputName.PASSWORD}
                        onChange={onChangeInput}
@@ -141,6 +151,19 @@ const Login = () => {
                        value={form.password.value}
                        error={form.password.isDirty && !!form.password.error}
                        helperText={form.password.isDirty && form.password.error}
+                       type={showPassword ? 'text' : 'password'}
+                       InputProps={{
+                         endAdornment: (
+                           <InputAdornment position="end">
+                             <IconButton aria-label="toggle password visibility"
+                                         onClick={handleClickShowPassword}
+                                         onMouseDown={handleMouseDownPassword}
+                             >
+                               {showPassword ? <VisibilityOff /> : <Visibility />}
+                             </IconButton>
+                           </InputAdornment>
+                         ),
+                       }}
             />
             <Button variant={'contained'}
                     type={'submit'}
@@ -156,10 +179,7 @@ const Login = () => {
             <Link to={Path.REGISTER}>Register</Link>
           </span>
         </Styled.LoginBox>
-        <Styled.Background sx={{display: {xs: 'none', md: 'block'}}}
-                           src={LoginBackground}
-        >
-        </Styled.Background>
+        <Styled.Feathers sx={{display: {xs: 'none', md: 'block'}}} />
       </Styled.LoginRoot>
     </>
   );
