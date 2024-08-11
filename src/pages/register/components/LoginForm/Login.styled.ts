@@ -1,5 +1,10 @@
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import {alpha} from "@mui/material";
+
+interface BackgroundProps {
+  src: string;
+}
 
 const Styled = {
   LoginRoot: styled(Box, {
@@ -17,20 +22,33 @@ const Styled = {
     name: 'MuiLoginBox',
     slot: 'root',
   })(({theme}) => ({
-    background: theme.palette.background.paper,
+    background: alpha(theme.palette.background.paper, 0.3),
+    backdropFilter: 'blur(20px)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     gap: theme.spacing(5),
     padding: theme.spacing(5),
     flex: 1,
+    zIndex: 1,
   })),
-  Background: styled("img", {
+  Feathers: styled(Box, {
+    name: 'MuiFeathersBox',
+    slot: 'root',
+  })(() => ({
+    background: 'transparent',
+    width: '66%',
+  })),
+  Background: styled("div", {
     name: 'MuiBackground',
     slot: 'root',
-  })(({theme}) => ({
-    background: theme.palette.background.paper,
-    width: '70%',
+    shouldForwardProp: (prop) => prop !== 'src',
+  })<BackgroundProps>(({theme, src}) => ({
+    position: 'absolute',
+    background: `url(${src})`,
+    width: '100%',
+    height: '100%',
+    borderColor: theme.palette.background.paper
   })),
 }
 
