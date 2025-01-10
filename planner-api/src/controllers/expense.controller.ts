@@ -285,8 +285,8 @@ const deleteTransaction = async (req: Request<{ id: string }>, res: Response<Tra
               : { decrement: transaction.amount }
           }
         }),
-        // Jeśli to był wydatek, zaktualizuj budżet kategorii
-        ...(transaction.type === 'EXPENSE' ? [
+        // Jeśli to był wydatek i ma przypisaną kategorię, zaktualizuj budżet kategorii
+        ...(transaction.type === 'EXPENSE' && transaction.categoryId ? [
           prisma.category.update({
             where: { id: transaction.categoryId },
             data: {
