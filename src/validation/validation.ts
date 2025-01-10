@@ -6,6 +6,7 @@ const defaultErrorMessages = {
   invalidPositive: 'Value is negative',
   invalidNumber: 'Value is not a number',
   invalidRegexp: 'Value is not valid',
+  invalidPattern: 'Value does not match pattern',
 }
 
 export default class Validation<T> {
@@ -27,6 +28,15 @@ export default class Validation<T> {
     this.isValid = customValidator();
     this.error = !this.isValid ? errorMessage : '';
     // this.isDirty = true;
+
+    return this;
+  }
+
+  matches(pattern: RegExp, errorMessage = '') {
+    if (!this.isValid) return this;
+
+    this.isValid = pattern.test(String(this.value));
+    this.error = !this.isValid ? errorMessage || defaultErrorMessages.invalidPattern : '';
 
     return this;
   }

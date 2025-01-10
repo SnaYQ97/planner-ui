@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Category" ADD COLUMN     "budget" DECIMAL(65,30) NOT NULL DEFAULT 0,
-ADD COLUMN     "color" TEXT NOT NULL DEFAULT '#000000';

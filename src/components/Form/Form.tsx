@@ -1,5 +1,5 @@
 import {DetailedHTMLProps, FormHTMLAttributes, ForwardedRef, forwardRef} from "react";
-import FormRoot from "./Form.styled";
+import FormRoot from "./Form.styled.ts";
 
 const Form = forwardRef((props:DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>, ref: ForwardedRef<HTMLFormElement>)  => {
   const { children, ...other  }  = props;

@@ -1,1 +1,1 @@
-export { default as userReducer } from "./user.reducer";
+export { default as userReducer } from "./user.reducer.ts";

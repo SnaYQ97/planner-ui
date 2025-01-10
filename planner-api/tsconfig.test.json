@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "types": ["node", "jest", "express", "express-serve-static-core", "supertest"]
-  },
-  "include": ["src/**/*.test.ts", "jest.config.ts"],
-  "exclude": ["node_modules", "dist"]
-} 
