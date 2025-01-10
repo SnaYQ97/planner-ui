@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import BaseService from '../BaseService/Base.service.ts';
-import { Transaction } from '@/types/transaction';
+import BaseService from '../BaseService/Base.service';
+import { Transaction } from '@types/transaction';
 
 interface TransactionResponse {
   data: Transaction | Transaction[];
@@ -75,7 +75,7 @@ export const useGetTransactionById = (id: string) => {
 
 export const useCreateTransaction = () => {
   return useMutation({
-    mutationFn: (data: Partial<Transaction>) =>
+    mutationFn: (data: Partial<Transaction>) => 
       transactionService.createTransaction(data),
   });
 };
@@ -93,4 +93,4 @@ export const useDeleteTransaction = () => {
   });
 };
 
-export default TransactionService;
+export default TransactionService; 

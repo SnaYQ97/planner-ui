@@ -14,7 +14,7 @@ import { Card } from "@components/ui/card.tsx";
 import { Alert } from "@components/ui/alert.tsx";
 import { Loader2, Wallet, FolderTree, ChartPie, LineChart, Mail, Lock, User } from "lucide-react";
 import { Path } from "@main";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Label } from "@components/ui/label.tsx";
 import { cn } from "@lib/utils.ts";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -61,7 +61,18 @@ export const Signin = () => {
     mode: "onChange"
   });
 
-  const { register, handleSubmit, formState: { errors, isValid }, setError } = form;
+  const { register, handleSubmit, formState: { errors, isValid }, setError, clearErrors } = form;
+
+  // Automatyczne czyszczenie błędów po 3 sekundach
+  useEffect(() => {
+    if (errors.root) {
+      const timer = setTimeout(() => {
+        clearErrors('root');
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [errors.root, clearErrors]);
 
   const loginMutation = useLogin();
   const createUserMutation = useCreateUser();
