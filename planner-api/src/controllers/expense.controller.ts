@@ -56,9 +56,11 @@ const createTransaction = async (req: Request, res: Response<TransactionResponse
         description: req.body.description,
         date: new Date(req.body.date),
         type: req.body.type,
-        category: {
-          connect: { id: req.body.categoryId }
-        },
+        ...(req.body.categoryId && {
+          category: {
+            connect: { id: req.body.categoryId }
+          }
+        }),
         bankAccount: {
           connect: { id: req.body.accountId }
         },
@@ -89,14 +91,16 @@ const createTransaction = async (req: Request, res: Response<TransactionResponse
           });
 
           // Aktualizacja wydatków w kategorii
-          await prisma.category.update({
-            where: { id: req.body.categoryId },
-            data: {
-              currentSpent: {
-                increment: req.body.amount
+          if (req.body.categoryId) {
+            await prisma.category.update({
+              where: { id: req.body.categoryId },
+              data: {
+                currentSpent: {
+                  increment: req.body.amount
+                }
               }
-            }
-          });
+            });
+          }
         } else {
           await prisma.bankAccount.update({
             where: { id: req.body.accountId },
@@ -149,9 +153,11 @@ const updateTransaction = async (req: Request<{ id: string }>, res: Response<Tra
         description: req.body.description,
         date: new Date(req.body.date),
         type: req.body.type,
-        category: {
-          connect: { id: req.body.categoryId }
-        },
+        ...(req.body.categoryId && {
+          category: {
+            connect: { id: req.body.categoryId }
+          }
+        }),
         bankAccount: {
           connect: { id: req.body.accountId }
         }
@@ -159,8 +165,9 @@ const updateTransaction = async (req: Request<{ id: string }>, res: Response<Tra
 
       const transaction = await prisma.$transaction(async (prisma) => {
         // Jeśli zmieniono kategorię lub kwotę w wydatku
-        if (currentTransaction.type === 'EXPENSE') {
-          if (currentTransaction.categoryId !== req.body.categoryId || 
+        if (currentTransaction.type === 'EXPENSE' && currentTransaction.categoryId) {
+          if ((!req.body.categoryId && currentTransaction.categoryId) || 
+              (req.body.categoryId && currentTransaction.categoryId !== req.body.categoryId) || 
               currentTransaction.amount.toString() !== req.body.amount) {
             // Cofnij poprzedni wydatek w starej kategorii
             await prisma.category.update({
@@ -173,7 +180,7 @@ const updateTransaction = async (req: Request<{ id: string }>, res: Response<Tra
             });
             
             // Dodaj nowy wydatek w nowej kategorii
-            if (req.body.type === 'EXPENSE') {
+            if (req.body.type === 'EXPENSE' && req.body.categoryId) {
               await prisma.category.update({
                 where: { id: req.body.categoryId },
                 data: {
@@ -184,7 +191,7 @@ const updateTransaction = async (req: Request<{ id: string }>, res: Response<Tra
               });
             }
           }
-        } else if (req.body.type === 'EXPENSE') {
+        } else if (req.body.type === 'EXPENSE' && req.body.categoryId) {
           // Jeśli zmieniono typ z INCOME na EXPENSE
           await prisma.category.update({
             where: { id: req.body.categoryId },
