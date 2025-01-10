@@ -105,17 +105,18 @@ export const Signin = () => {
           <Swiper
             modules={[Autoplay, Pagination]}
             slidesPerView={1}
-            speed={800}
+            speed={600}
             autoplay={{
-              delay: 5000,
+              delay: 3000,
               disableOnInteraction: false,
+              pauseOnMouseEnter: true
             }}
             pagination={{
               clickable: true,
-              dynamicBullets: true,
+              dynamicBullets: false
             }}
             loop={true}
-            className="w-full h-full features-swiper relative z-10"
+            className="w-full h-full features-swiper relative z-10 pb-8"
           >
             {features.map((feature, index) => (
               <SwiperSlide key={index} className="h-full w-full flex items-center justify-center">
