@@ -1,7 +1,9 @@
 import { Button } from "@components/ui/button";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut, Settings, User as UserIcon } from "lucide-react";
 import { User } from "@reducer/user.reducer";
 import { MonthYearSelector } from "@components/MonthYearSelector/MonthYearSelector";
+import { motion } from "framer-motion";
+import { cn } from "@lib/utils";
 
 interface UserHeaderProps {
   user: User;
@@ -20,37 +22,77 @@ export const UserHeader = ({
 }: UserHeaderProps) => {
   return (
     <div className="flex flex-col gap-4 mb-8">
-      <div className="flex items-center justify-between w-full">
+      <motion.div 
+        className="flex items-center justify-between w-full"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="flex items-center gap-4">
-          <div className="h-10 w-10 rounded-full bg-gray-600" />
+          <motion.div 
+            className={cn(
+              "h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center",
+              "shadow-lg shadow-primary/20"
+            )}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <UserIcon className="h-6 w-6 text-primary-foreground" />
+          </motion.div>
           <div>
-            <h2 className="text-lg font-semibold">Cześć, {user.email?.split('@')[0]}!</h2>
-            <p className="text-sm text-muted-foreground">Miesięczny budżet</p>
+            <motion.h2 
+              className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Cześć, {user.email?.split('@')[0]}!
+            </motion.h2>
+            <motion.p 
+              className="text-sm text-muted-foreground"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Miesięczny budżet
+            </motion.p>
           </div>
         </div>
-        <div className="flex gap-2">
+        <motion.div 
+          className="flex gap-2"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <Button 
             variant="ghost"
             size="icon"
             onClick={onSettings}
+            className="h-10 w-10 rounded-xl hover:bg-primary/10 transition-colors"
           >
-            <Settings className="h-4 w-4" />
+            <Settings className="h-5 w-5 text-primary" />
           </Button>
           <Button 
             variant="ghost" 
             size="icon"
             onClick={onLogout}
+            className="h-10 w-10 rounded-xl hover:bg-accent transition-colors"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="h-5 w-5" />
           </Button>
-        </div>
-      </div>
-      <div className="w-full sm:w-[300px]">
+        </motion.div>
+      </motion.div>
+      <motion.div 
+        className="w-full sm:w-[300px]"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
         <MonthYearSelector
           selectedMonth={selectedMonth}
           onMonthChange={onMonthChange}
         />
-      </div>
+      </motion.div>
     </div>
   );
 }; 

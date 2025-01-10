@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, FocusEvent } from 'react';
+import { useState, ChangeEvent, FocusEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useCreateCategory, useUpdateCategory } from '@services/CategoryService/Category.service';
 import { addCategory, updateCategory } from '@reducer/category.reducer';

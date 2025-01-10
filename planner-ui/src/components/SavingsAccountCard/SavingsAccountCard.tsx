@@ -59,7 +59,7 @@ export const SavingsAccountCard = ({ account }: SavingsAccountCardProps) => {
     ],
   });
 
-  const getDoughnutOptions = (percentage: number) => ({
+  const getDoughnutOptions = (_percentage: number) => ({
     cutout: '75%',
     responsive: true,
     maintainAspectRatio: false,

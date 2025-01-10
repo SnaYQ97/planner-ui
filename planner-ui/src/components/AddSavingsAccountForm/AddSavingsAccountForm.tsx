@@ -94,25 +94,6 @@ export const AddSavingsAccountForm = ({ onSuccess, onCancel, initialData }: AddS
     }
   };
 
-  const validateForm = async () => {
-    try {
-      const validatedData = await bankAccountSchema.validate(form, { abortEarly: false });
-      setErrors({});
-      return validatedData;
-    } catch (err) {
-      if (err instanceof ValidationError) {
-        const newErrors: FormErrors = {};
-        err.inner.forEach((error) => {
-          if (error.path) {
-            newErrors[error.path as keyof FormErrors] = error.message;
-          }
-        });
-        setErrors(newErrors);
-      }
-      return false;
-    }
-  };
-
   const handleSubmit = async () => {
     try {
       const formData: CreateBankAccountRequest = {

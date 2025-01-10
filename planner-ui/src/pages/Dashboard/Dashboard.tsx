@@ -31,8 +31,31 @@ import { Button } from "@components/ui/button";
 import { SavingsAccountsSection } from './components/SavingsAccountsSection';
 import { useGetTransactions } from '@services/TransactionService/Transaction.service';
 import { AddSavingsAccountForm } from "@components/AddSavingsAccountForm/AddSavingsAccountForm";
+import { motion, AnimatePresence } from 'framer-motion';
 
 ChartJS.register(ArcElement, Tooltip);
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+};
 
 export const Dashboard = () => {
   const user = useSelector(getUser);
@@ -148,121 +171,170 @@ export const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6 overflow-x-hidden">
-      <UserHeader 
-        user={user}
-        onLogout={handleLogout}
-        onSettings={handleSettings}
-        selectedMonth={selectedMonth}
-        onMonthChange={handleMonthChange}
-      />
+    <motion.div 
+      className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 p-6 overflow-x-hidden"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div variants={itemVariants}>
+        <UserHeader 
+          user={user}
+          onLogout={handleLogout}
+          onSettings={handleSettings}
+          selectedMonth={selectedMonth}
+          onMonthChange={handleMonthChange}
+        />
+      </motion.div>
 
       {/* Górna sekcja z planowanymi wydatkami i wydatkami */}
       <div className="flex flex-wrap gap-6 mb-6">
         {/* Lewa kolumna z planowanymi wydatkami */}
-        <div className="flex-1 min-w-[300px] space-y-6">
-          <BudgetSummary
-            categories={categories}
-            totalBudget={totalBudget}
-            remainingBudget={remainingBudget}
-            totalIncome={monthlyIncome}
-            availableFunds={availableFunds}
-            selectedMonth={selectedMonth}
-          />
+        <motion.div 
+          className="flex-1 min-w-[300px] space-y-6"
+          variants={itemVariants}
+        >
+          <motion.div 
+            variants={itemVariants}
+            className="transform transition-all duration-300 hover:scale-[1.02]"
+          >
+            <BudgetSummary
+              categories={categories}
+              totalBudget={totalBudget}
+              remainingBudget={remainingBudget}
+              totalIncome={monthlyIncome}
+              availableFunds={availableFunds}
+              selectedMonth={selectedMonth}
+            />
+          </motion.div>
 
-          <CategoryList
-            categories={categories}
-            onAddCategory={() => setShowAddCategoryDialog(true)}
-            onEditCategory={setSelectedCategory}
-            onDeleteCategory={handleDeleteCategory}
-            totalBudget={totalBudget}
-          />
-        </div>
+          <motion.div variants={itemVariants}>
+            <CategoryList
+              categories={categories}
+              onAddCategory={() => setShowAddCategoryDialog(true)}
+              onEditCategory={setSelectedCategory}
+              onDeleteCategory={handleDeleteCategory}
+              totalBudget={totalBudget}
+            />
+          </motion.div>
+        </motion.div>
 
         {/* Prawa kolumna z wydatkami */}
-        <div className="flex-1 min-w-[300px]">
-          <ExpenseSection selectedMonth={selectedMonth} />
-        </div>
+        <motion.div 
+          className="flex-1 min-w-[300px]"
+          variants={itemVariants}
+        >
+          <motion.div 
+            variants={itemVariants}
+            className="transform transition-all duration-300 hover:scale-[1.02]"
+          >
+            <ExpenseSection selectedMonth={selectedMonth} />
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Dolna sekcja z przychodami i kontami oszczędnościowymi */}
       <div className="flex flex-wrap gap-6">
         {/* Lewa kolumna z przychodami */}
-        <div className="flex-1 min-w-[300px]">
-          <IncomeSection selectedMonth={selectedMonth} />
-        </div>
+        <motion.div 
+          className="flex-1 min-w-[300px]"
+          variants={itemVariants}
+        >
+          <motion.div 
+            variants={itemVariants}
+            className="transform transition-all duration-300 hover:scale-[1.02]"
+          >
+            <IncomeSection selectedMonth={selectedMonth} />
+          </motion.div>
+        </motion.div>
 
         {/* Prawa kolumna z kontami oszczędnościowymi */}
-        <div className="flex-1 min-w-[300px]">
-          <SavingsAccountsSection 
-            accounts={bankAccounts}
-            isLoading={!bankAccountsData}
-            onAddAccount={() => setShowAddAccountDialog(true)}
-          />
-        </div>
+        <motion.div 
+          className="flex-1 min-w-[300px]"
+          variants={itemVariants}
+        >
+          <motion.div 
+            variants={itemVariants}
+            className="transform transition-all duration-300 hover:scale-[1.02]"
+          >
+            <SavingsAccountsSection 
+              accounts={bankAccounts}
+              isLoading={!bankAccountsData}
+              onAddAccount={() => setShowAddAccountDialog(true)}
+            />
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Dialogs */}
-      <Dialog open={showAddCategoryDialog} onOpenChange={setShowAddCategoryDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Dodaj nową kategorię</DialogTitle>
-          </DialogHeader>
-          <AddCategoryForm onSuccess={handleCategorySuccess} />
-        </DialogContent>
-      </Dialog>
+      <AnimatePresence>
+        {showAddCategoryDialog && (
+          <Dialog open={showAddCategoryDialog} onOpenChange={setShowAddCategoryDialog}>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Dodaj nową kategorię</DialogTitle>
+              </DialogHeader>
+              <AddCategoryForm onSuccess={handleCategorySuccess} />
+            </DialogContent>
+          </Dialog>
+        )}
 
-      <Dialog open={showAddAccountDialog} onOpenChange={setShowAddAccountDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Dodaj konto oszczędnościowe</DialogTitle>
-          </DialogHeader>
-          <AddSavingsAccountForm onSuccess={() => setShowAddAccountDialog(false)} />
-        </DialogContent>
-      </Dialog>
+        {showAddAccountDialog && (
+          <Dialog open={showAddAccountDialog} onOpenChange={setShowAddAccountDialog}>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Dodaj konto oszczędnościowe</DialogTitle>
+              </DialogHeader>
+              <AddSavingsAccountForm onSuccess={() => setShowAddAccountDialog(false)} />
+            </DialogContent>
+          </Dialog>
+        )}
 
-      {selectedCategory && (
-        <Dialog open={!!selectedCategory} onOpenChange={() => setSelectedCategory(null)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Edytuj kategorię</DialogTitle>
-            </DialogHeader>
-            <EditCategoryForm 
-              category={selectedCategory} 
-              onSuccess={handleCategorySuccess}
-            />
-          </DialogContent>
-        </Dialog>
-      )}
+        {selectedCategory && (
+          <Dialog open={!!selectedCategory} onOpenChange={() => setSelectedCategory(null)}>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Edytuj kategorię</DialogTitle>
+              </DialogHeader>
+              <EditCategoryForm 
+                category={selectedCategory} 
+                onSuccess={handleCategorySuccess}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
 
-      <Dialog open={!!categoryToDelete} onOpenChange={() => setCategoryToDelete(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Czy na pewno chcesz usunąć tę kategorię?</DialogTitle>
-            <DialogDescription>
-              Ta operacja jest nieodwracalna. Wszystkie wydatki przypisane do tej kategorii zostaną usunięte.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setCategoryToDelete(null)}
-            >
-              Anuluj
-            </Button>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={confirmDeleteCategory}
-              disabled={deleteCategory.isPending}
-            >
-              {deleteCategory.isPending ? 'Usuwanie...' : 'Usuń'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+        {categoryToDelete && (
+          <Dialog open={!!categoryToDelete} onOpenChange={() => setCategoryToDelete(null)}>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Czy na pewno chcesz usunąć tę kategorię?</DialogTitle>
+                <DialogDescription>
+                  Ta operacja jest nieodwracalna. Wszystkie wydatki przypisane do tej kategorii zostaną usunięte.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setCategoryToDelete(null)}
+                >
+                  Anuluj
+                </Button>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={confirmDeleteCategory}
+                  disabled={deleteCategory.isPending}
+                >
+                  {deleteCategory.isPending ? 'Usuwanie...' : 'Usuń'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 

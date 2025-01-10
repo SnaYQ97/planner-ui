@@ -1,0 +1,97 @@
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+}
+
+.bg-dot-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(var(--primary), 0.1) 0%,
+    rgba(var(--primary), 0.05) 100%
+  );
+  mask-image: radial-gradient(rgba(0, 0, 0, 0.8), transparent);
+  animation: gradient 15s ease infinite;
+  background-size: 400% 400%;
+}
+
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  40%, 60% {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+
+.features-swiper {
+  height: 100vh !important;
+  width: 100% !important;
+}
+
+.features-swiper .swiper-wrapper {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.features-swiper .swiper-slide {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.features-swiper .swiper-slide-active {
+  opacity: 1;
+  visibility: visible;
+  position: relative !important;
+}
+
+.features-swiper .swiper-pagination {
+  bottom: 2rem !important;
+  z-index: 20;
+}
+
+.features-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(var(--primary), 0.5);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.features-swiper .swiper-pagination-bullet-active {
+  width: 24px;
+  border-radius: 4px;
+  background: rgb(var(--primary));
+  opacity: 1;
+} 

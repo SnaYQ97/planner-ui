@@ -1,5 +1,4 @@
 import { Button } from '@components/ui/button';
-import styles from './ColorPicker.module.css';
 
 interface ColorPickerProps {
   selectedColor: string;

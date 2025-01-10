@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, ChangeEvent, FocusEvent} from 'react';
 import { useUpdateCategory, useDeleteCategory } from '../../services/CategoryService/Category.service';
-import { Category, CreateCategoryRequest } from '../../types/category';
+import { Category } from '../../types/category';
 import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
 import { Label } from '@components/ui/label';
