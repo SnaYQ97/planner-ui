@@ -17,7 +17,7 @@ export default defineConfig({
       "@validation": path.resolve(__dirname, "src/validation"),
       "@lib": path.resolve(__dirname, "src/lib"),
       "@schemas": path.resolve(__dirname, "src/schemas"),
-      "@types": path.resolve(__dirname, "src/types")
+      "@types": path.resolve(__dirname, "src/tes")
     }
   }
 })
